@@ -5,29 +5,30 @@ class Background extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			pictures: [],
+			loading: true,
+			person: null
 		}
 	}
-	componentDidMount() {
-		fetch('https://randomuser.me/api/?results=50')
-		.then(results => {
-			return results.json();
-		}).then(data => {
-			let pictures = data.results.map((pic) => {
-				return(
-					<div key={pic.results}>
-						<img src={pic.pictures.medium} />
-					</div>
-				)
-			})
-			this.setState({pictures: pictures});
-			console.log("state", this.state.pictures)
-		})
+	async componentDidMount() {
+		const url = "https://randomuser.me/api/?result=50";
+		const response = await fetch(url);
+		const data = await response.json();
+		this.setState({ person: data.results[0],loading: false })
+		console.log(data.results[0].name.first)
 	}
 	render() { 
 		return (
-			<div className="container">
-				{this.state.pictures}
+			<div>
+				{
+					this.state.loading || !this.state.person ?
+					<h1>Loading...</h1>:
+					<div className="container">
+						<div>{this.state.person.name.title}</div>
+						<div>{this.state.person.name.first}</div>
+						<div>{this.state.person.name.last}</div>
+						<img src={this.state.person.picture.large} />
+					</div>
+				}
 			</div>
 		);
 	}
