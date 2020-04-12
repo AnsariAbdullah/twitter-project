@@ -1,11 +1,12 @@
 import React from 'react';
-
+import Background from '../background'
+	
 const Splash = () => {
-  return (
-    <div>
-      Splash here
-    </div>
-  );
+	return (
+		<div>
+			<Background />
+		</div>
+	);
 }
  
 export default Splash;
